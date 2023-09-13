@@ -1,20 +1,23 @@
+// add headerProps interface to the component below:
 
-export default function HeaderDesktopMenu({ toggleDarkMode, accessibilityClick, show, setShow }) {
+import { HeaderProps } from "./types"
+
+export default function HeaderDesktopMenu({ toggleDarkMode, accessibilityClick, showDesktop, toggleShowDesktop }: HeaderProps) {
     return (
         <div className="user-desktop-icons">
             <div className="user-accesibility user-button dropdown dropdown-toggle">
                 {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                 <i
                     className="material-icons"
-                    onClick={() => {
-                        setShow({ ...show, showDesktop: !show.showDesktop })
-                    }}
+                    onClick={
+                        toggleShowDesktop
+                    }
                 >
                     accessibility
                 </i>
 
                 <div
-                    className={`dropdown-menu dropdown-menu-right ${show.showDesktop ? "show" : ""
+                    className={`dropdown-menu dropdown-menu-right ${showDesktop ? "show" : ""
                         }`}
                     style={{
                         position: "absolute",
@@ -48,13 +51,13 @@ export default function HeaderDesktopMenu({ toggleDarkMode, accessibilityClick, 
                                 <div className="d-flex justify-content-center">
                                     <button
                                         className="btnDecrease btn btn-round btn-fonts btn-secondary d-flex align-items-center justify-content-center waves-effect waves-light"
-                                        onClick={() => accessibilityClick(false)}
+                                        onClick={(e) => accessibilityClick(false, e)}
                                     >
                                         <i className="material-icons">remove</i>
                                     </button>
                                     <button
                                         className="btnEnlarge btn btn-round btn-fonts btn-default d-flex align-items-center justify-content-center ml-2 mr-0 waves-effect waves-light"
-                                        onClick={() => accessibilityClick(true)}
+                                        onClick={(e) => accessibilityClick(true, e)}
                                     >
                                         <i className="material-icons">add</i>
                                     </button>

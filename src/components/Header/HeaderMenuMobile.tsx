@@ -1,20 +1,19 @@
+import { HeaderProps } from "./types"
 
-export default function HeaderMenuMobile({ toggleDarkMode, accessibilityClick, show, setShow }) {
+export default function HeaderMenuMobile({ toggleDarkMode, accessibilityClick, showMobile, toggleShowMobile }: HeaderProps) {
     return (
         <div
             className={"user-mobile-menu user-button dropdown dropdown-toggle"}
         >
             <i
                 className="material-icons "
-                onClick={() => {
-                    setShow({ ...show, showMobile: !show.showMobile })
-                }}
+                onClick={toggleShowMobile}
             >
                 more_vert
             </i>
 
             <div
-                className={`dropdown-menu dropdown-menu-right ${show.showMobile ? "show" : ""
+                className={`dropdown-menu dropdown-menu-right ${showMobile ? "show" : ""
                     }`}
                 style={{
                     position: "absolute",
@@ -52,13 +51,13 @@ export default function HeaderMenuMobile({ toggleDarkMode, accessibilityClick, s
                             <div className="d-flex justify-content-center">
                                 <button
                                     className="btnDecrease btn btn-round btn-fonts btn-secondary d-flex align-items-center justify-content-center waves-effect waves-light"
-                                    onClick={() => accessibilityClick(false)}
+                                    onClick={(e) => accessibilityClick(false, e)}
                                 >
                                     <i className="material-icons">remove</i>
                                 </button>
                                 <button
                                     className="btnEnlarge btn btn-round btn-fonts btn-default d-flex align-items-center justify-content-center ml-2 mr-0 waves-effect waves-light"
-                                    onClick={() => accessibilityClick(true)}
+                                    onClick={(e) => accessibilityClick(true, e)}
                                 >
                                     <i className="material-icons">add</i>
                                 </button>
@@ -73,7 +72,6 @@ export default function HeaderMenuMobile({ toggleDarkMode, accessibilityClick, s
                         <div className="d-flex align-items-center justify-content-between">
                             <span id="tipo-de-modo">Cerrar Sesi&oacute;n</span>
                             <div className="d-flex justify-content-center">
-                                {/* rome-ignore lint/a11y/useValidAnchor: <explanation> */}
                                 <a role="button">
                                     <i className="material-icons">exit_to_app</i>
                                 </a>

@@ -1,36 +1,19 @@
-import React, { useEffect } from 'react';
 import { useAccessibilitySettings } from '../../hooks/useAccessibilitySettings';
 import HeaderLogo from './HeaderLogo';
 import HeaderMenuMobile from './HeaderMenuMobile';
 import HeaderDesktopMenu from './HeaderDesktopMenu';
-import { useState } from 'react';
+
 
 export default function Header() {
     const {
-        isDarkMode,
         toggleDarkMode,
-        fontSize,
-        setFontSize,
+        showDesktop,
+        showMobile,
+        toggleShowDesktop,
+        toggleShowMobile,
         accessibilityClick
     } = useAccessibilitySettings();
 
-    const [show, setShow] = useState({
-        showDesktop: false,
-        showMobile: false
-    })
-
-    useEffect(() => {
-        // Your existing useEffect code here
-        // ...
-
-        // Replace 'hasDark' with 'isDarkMode'
-        const hasDark = isDarkMode;
-
-        // Replace 'classList' with 'fontSize'
-        const classList = fontSize;
-
-        // ...
-    }, [isDarkMode, fontSize]);
 
     return (
         <header className="header">
@@ -47,8 +30,8 @@ export default function Header() {
                             nombre
                         </p>
                     </div>
-                    <HeaderMenuMobile toggleDarkMode={toggleDarkMode} accessibilityClick={accessibilityClick} show={show} setShow={setShow} />
-                    <HeaderDesktopMenu toggleDarkMode={toggleDarkMode} accessibilityClick={accessibilityClick} show={show} setShow={setShow} />
+                    <HeaderMenuMobile toggleDarkMode={toggleDarkMode} accessibilityClick={accessibilityClick} showMobile={showMobile} toggleShowMobile={toggleShowMobile} />
+                    <HeaderDesktopMenu toggleDarkMode={toggleDarkMode} accessibilityClick={accessibilityClick} showDesktop={showDesktop} toggleShowDesktop={toggleShowDesktop} />
                 </div>
             </div>
         </header>

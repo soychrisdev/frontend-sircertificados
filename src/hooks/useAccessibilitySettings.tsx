@@ -1,12 +1,31 @@
 import { useState, useEffect } from 'react';
 
 export function useAccessibilitySettings() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+
+
+    const getThemeFromLocalStorage = () => {
+        const storedSettings = localStorage.getItem('theme');
+        if (storedSettings) {
+            const { oscuro, fontSize: storedFontSize }: { oscuro: boolean, fontSize: string } = JSON.parse(storedSettings);
+            return { oscuro, storedFontSize };
+        }
+    }
+
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+        const theme = getThemeFromLocalStorage();
+        return theme?.oscuro || false
+    });
+
     const [fontSize, setFontSize] = useState('16px');
-    const [showDesktop, setShowDesktop] = useState(false);
+
+    const [show, setShow] = useState({
+        showDesktop: false,
+        showMobile: false
+    })
+
 
     useEffect(() => {
-        // Load settings from local storage or use default values
+        //TODO: Get the settings from local storage
         const storedSettings = localStorage.getItem('theme');
         if (storedSettings) {
             const { oscuro, fontSize: storedFontSize } = JSON.parse(storedSettings);
@@ -20,7 +39,34 @@ export function useAccessibilitySettings() {
         document.body.classList.toggle('dark', isDarkMode);
         const themePreferences = { oscuro: isDarkMode, fontSize };
         localStorage.setItem('theme', JSON.stringify(themePreferences));
+        toggleThemeIcon(isDarkMode)
     }, [isDarkMode, fontSize]);
+
+    const toggleThemeIcon = (isDarkMode: boolean) => {
+        if (typeof isDarkMode === "boolean") {
+            if (isDarkMode) {
+                $(".tipo-de-modo").text("Modo Claro");
+                $(".logo-mobile").attr(
+                    "src",
+                    "https://www.inacap.cl/web/template-aplicaciones/img/isotipo-blanco.png",
+                );
+                $(".logo").attr(
+                    "src",
+                    "https://www.inacap.cl/web/template-aplicaciones/img/logo-inacap-blanco.png",
+                );
+            } else {
+                $(".tipo-de-modo").text("Modo Oscuro");
+                $(".logo-mobile").attr(
+                    "src",
+                    "https://www.inacap.cl/web/template-aplicaciones/img/isotipo.png",
+                );
+                $(".logo").attr(
+                    "src",
+                    "https://www.inacap.cl/web/template-aplicaciones/img/logo-inacap.png",
+                );
+            }
+        }
+    };
 
     const accessibilityClick = (increase: boolean, e: React.MouseEvent) => {
         e?.stopPropagation();
@@ -74,10 +120,12 @@ export function useAccessibilitySettings() {
     return {
         isDarkMode,
         toggleDarkMode: () => setIsDarkMode((prev) => !prev),
+        toggleShowMobile: () => setShow((prev) => ({ ...prev, showMobile: !prev.showMobile })),
+        toggleShowDesktop: () => setShow((prev) => ({ ...prev, showDesktop: !prev.showDesktop })),
         fontSize,
         setFontSize,
-        showDesktop,
-        setShowDesktop,
+        showDesktop: show.showDesktop,
+        showMobile: show.showMobile,
         accessibilityClick
     };
 }
