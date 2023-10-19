@@ -25,8 +25,8 @@ function validateRut(rut: string): boolean {
 
 	let rutNumbers = parseInt(cleanedRut.slice(0, -1), 10);
 	const rutLastDigit = cleanedRut.slice(-1);
-	let M = 0,
-		S = 1;
+	let M = 0;
+	let S = 1;
 	for (; rutNumbers; rutNumbers = Math.floor(rutNumbers / 10))
 		S = (S + (rutNumbers % 10) * (9 - (M++ % 6))) % 11;
 	const lastDigitValid = (S ? S - 1 : "K").toString();
@@ -40,8 +40,8 @@ function getLastDigitOfRut(rutNumbers: number): string {
 	 * @return {string} RUT last digit.
 	 */
 
-	let M = 0,
-		S = 1;
+	let M = 0;
+	let S = 1;
 	for (; rutNumbers; rutNumbers = Math.floor(rutNumbers / 10))
 		S = (S + (rutNumbers % 10) * (9 - (M++ % 6))) % 11;
 	const lastDigitValid = (S ? S - 1 : "K").toString();

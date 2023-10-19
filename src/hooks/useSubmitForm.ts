@@ -1,53 +1,54 @@
-import { useEffect } from "react";
 import { useAppStore } from "../store/store";
-import useFetchBuscaConstanciasInternas, { ConstanciasBuscarInterface } from "./useFetchBuscaConstanciasInternas";
+import useFetchBuscaConstanciasInternas, {
+	ConstanciasBuscarInterface,
+} from "./useFetchBuscaConstanciasInternas";
 import useFetchGestorVinculoInterna from "./useFetchGestorVinculoInterna";
 
 export default function useSubmitForm() {
-    const rut = useAppStore(state => state.rut);
-    const gestorValue = useAppStore(state => state.gestor);
-    const tipoParticipanteValue = useAppStore(state => state.tipoParticipante);
-    const anioValue = useAppStore(state => state.anio);
-    const { data: dataGestorVinculos } = useFetchGestorVinculoInterna();
+	const rut = useAppStore((state) => state.rut);
+	const gestorValue = useAppStore((state) => state.gestor);
+	const tipoParticipanteValue = useAppStore((state) => state.tipoParticipante);
+	const anioValue = useAppStore((state) => state.anio);
+	const { data: dataGestorVinculos } = useFetchGestorVinculoInterna();
 
+	const { enviarForm, isLoading, data, isSuccess } =
+		useFetchBuscaConstanciasInternas();
 
-    const { enviarForm, isLoading, data, isSuccess } = useFetchBuscaConstanciasInternas()
+	const handleSubmitForm = (e: Event) => {
+		e.preventDefault();
+		if (!gestorValue || !tipoParticipanteValue || !anioValue) {
+			//@ts-ignore
+			return toastr.error("Valores invalidos");
+		}
 
+		//TODO: UNCOOMENT IT
+		// if (!validateRut(rut || "")) {
+		//   //@ts-ignore
+		//   return toastr.error(
+		//     "El rut no es valido.",
+		//   );
+		// }
 
+		if (rut && gestorValue && tipoParticipanteValue && anioValue) {
+			const sendValues: ConstanciasBuscarInterface = {
+				//remove - from rut
+				//remove - from rut and last digit and add it to the end
 
-    const handleSubmitForm = (e: Event) => {
+				i_rut: rut.replace("-", "").slice(0, -1),
+				i_tpart: tipoParticipanteValue,
+				i_seun_ccod: dataGestorVinculos
+					?.find((item) => item.SEUN_TNOMBRE === gestorValue)
+					?.SEUN_CCOD.toString(),
+				i_anio: anioValue,
+			};
+			return enviarForm(sendValues);
+		}
+	};
 
-        e.preventDefault();
-        if (!gestorValue || !tipoParticipanteValue || !anioValue) {
-            //@ts-ignore
-            return toastr.error(
-                "Valores invalidos",
-            );
-        }
-
-        //TODO: UNCOOMENT IT
-        // if (!validateRut(rut || "")) {
-        //   //@ts-ignore
-        //   return toastr.error(
-        //     "El rut no es valido.",
-        //   );
-        // }
-
-        if (rut && gestorValue && tipoParticipanteValue && anioValue) {
-            const sendValues: ConstanciasBuscarInterface = {
-                //remove - from rut
-                i_rut: rut?.replace(/-/g, ""),
-                i_tpart: tipoParticipanteValue,
-                i_seun_ccod: dataGestorVinculos?.find((item) => item.SEUN_TNOMBRE === gestorValue)?.SEUN_CCOD.toString(),
-                i_anio: anioValue
-            };
-            return enviarForm(sendValues);
-        }
-
-    }
-
-
-    return {
-        handleSubmitForm, isLoading, data, isSuccess
-    }
+	return {
+		handleSubmitForm,
+		isLoading,
+		data,
+		isSuccess,
+	};
 }

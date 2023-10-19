@@ -11,7 +11,7 @@ export default defineConfig(async ({ command }) => {
       server: {
         proxy: {
           "/api": {
-            target: "http://[::1]:54111/api",
+            target: "http://[::1]:3000/api",
             secure: false,
             changeOrigin: false,
             rewrite: (path) => path.replace(/^\/api/, ""),
@@ -26,7 +26,7 @@ export default defineConfig(async ({ command }) => {
       server: {
         proxy: {
           "/api": {
-            target: "http://localhost:54111/Constancias/api", // work in build
+            target: "http://localhost:3000/Constancias/api", // work in build
             // target: "http://[::1]:54111/api", // work in build but local
             secure: false,
             changeOrigin: true, // work in local

@@ -1,36 +1,37 @@
-import React, { useEffect, useState, ChangeEvent } from 'react'
-import { formatRut, validateRut } from '../../utils/RutValidator';
-import { useAppStore } from '../../store/store';
-
-import { useDebounce } from 'usehooks-ts'
-
+import { ChangeEvent } from "react";
+import { useAppStore } from "../../store/store";
+import { formatRut, validateRut } from "../../utils/RutValidator";
 
 export default function InputRutValidator() {
-    const setRut = useAppStore(state => state.setRut);
-    const rut = useAppStore(state => state.rut);
-
-    const debouncedValue = useDebounce<string>(rut || "", 500)
+    const { rut, setRut } = useAppStore((state) => state);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
-        setRut(event.target.value)
-    }
-    useEffect(() => {
-        setRut(formatRut(rut || "", false));
-    }, [debouncedValue]);
+        setRut(
+            rut && rut.length > 0
+                ? formatRut(event.target.value, false)
+                : event.target.value || "",
+        ); // provide a default value for rut
+    };
     return (
         <>
-            <input type="text" name="buscar_campo_01" id="buscar_campo_01" className="form-control mb-0 editar-focus" placeholder="Ingrese RUT empleado"
+            <input
+                type="text"
+                name="rut"
+                id="rut"
+                className="form-control mb-0 editar-focus"
+                placeholder="Ingrese RUT empleado"
                 onChange={handleChange}
                 value={
-                    rut
+                    rut || "" // provide a default value for rut
                 }
             />
-            <label htmlFor="buscar_campo_01" className="active">RUT (*)</label>
-            {!validateRut(rut) && <div className="c-requerido">
-                *Este campo es requerido
-            </div>}
-
+            <label htmlFor="rut" className="active">
+                RUT (*)
+            </label>
+            {!validateRut(rut || "") && (
+                <div className="c-requerido">*Este campo es requerido</div>
+            )}
         </>
-    )
+    );
 }
