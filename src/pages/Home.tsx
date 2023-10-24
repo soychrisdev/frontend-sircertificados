@@ -24,7 +24,6 @@ function Home() {
 	if (isLoadingParticipante || isLoadingConstancias || isLoadingVinculos)
 		return <LoadingOverlayComponent />;
 
-	//rut , nombre de persona, tipo de participante, fecha de termino y inicio
 	return (
 		<>
 			<div className="card mb-4" id="buscar">
