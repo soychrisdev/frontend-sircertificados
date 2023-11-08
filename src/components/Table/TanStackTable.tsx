@@ -197,25 +197,37 @@ export default function TanStackTable({ data, isSuccess }: TanStackTableProps) {
     }, [debouncedValue, emitir]);
 
     type FormattedValue = {
-        i_plan_ncorr: number;
-        i_tipo_cert: number;
-        i_pvcm_ncorr: number;
-        i_audi_tusuario: number;
-        i_cod_firmante: number | undefined;
+        ANIO_PROGRAMA: number
+        PLAN_NCORR: number
+        PROG_TNOMBRE: string
+        INICIATIVA: string
+        ACCION: string
+        PLAN_FINICIO: string
+        PLAN_FTERMINO: string
+        PVCM_TROL_DOCENTE: any
+        PVCM_TTIPO_BENEFICIARIO: string
+        PVCM_NRUT_PERSONA: number
+        PVCM_TNOMBRE_PERSONA: string
+        PVCM_NCORR: number
+        EMCE_NCORR: any
+        SEUN_NCORR_GESTOR: number
+        CERT_NCORR: string
+        codigo: string
     };
 
     const handleSubmit = (value: FormattedValue[]) => {
-        const formatedValues = value.map((value) => {
-            return {
-                i_plan_ncorr: value.i_plan_ncorr,
-                i_tipo_cert: value.i_tipo_cert,
-                i_pvcm_ncorr: value.i_pvcm_ncorr,
-                i_audi_tusuario: value.i_audi_tusuario,
-                i_cod_firmante: userData?.cod_firmante,
-            };
-        });
-        //@ts-ignore
-        emitir(formatedValues);
+        for (const array of value) {
+            const formatedValues = array.map((value) => ({
+                i_plan_ncorr: value.PLAN_NCORR,
+                i_tipo_cert: "2",
+                i_pvcm_ncorr: value.PVCM_NCORR,
+                i_audi_tusuario: value.PVCM_NRUT_PERSONA,
+                i_cod_firmante: userData?.codigo,
+            }));
+
+            console.log("formatedValues: ", formatedValues);
+            emitir(formatedValues);
+        }
     };
 
     if (!isSuccess || !data || !Array.isArray(data))
