@@ -22,7 +22,7 @@ function Home() {
 
 	const { handleSubmitForm, isLoading, data, isSuccess } = useSubmitForm();
 
-	if (isLoadingParticipante || isLoadingConstancias || isLoadingVinculos)
+	if (isLoadingParticipante && isLoadingConstancias && isLoadingVinculos)
 		return <LoadingOverlayComponent />;
 
 	return (
@@ -80,7 +80,7 @@ function Home() {
 												label="Docente/ Estudiante/ Administrativo (*)"
 												data={dataParticipantes?.map(
 													(item) => item.TIPO_PARTICIPANTE,
-												)}
+												).sort()}
 												isLoading={isLoadingParticipante}
 												required={true}
 												disabled={false}
@@ -94,7 +94,7 @@ function Home() {
 												label="Seleccione gestor (*)"
 												data={dataGestorVinculos?.map(
 													(item) => item.SEUN_TNOMBRE,
-												)}
+												).sort()}
 												isLoading={isLoadingVinculos}
 												required={true}
 												disabled={false}
@@ -106,7 +106,7 @@ function Home() {
 											<SelectAnio
 												id="select-tipo-anio"
 												label="Seleccione a&ntilde;o (*)"
-												data={dataAniosConstancias?.map((item) => item.ANIO)}
+												data={dataAniosConstancias?.map((item) => item.ANIO).sort()}
 												isLoading={isLoadingConstancias}
 												required={true}
 												disabled={false}

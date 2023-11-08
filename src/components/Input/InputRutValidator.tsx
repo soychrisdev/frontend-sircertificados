@@ -8,9 +8,8 @@ export default function InputRutValidator() {
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
         setRut(
-            rut && rut.length > 0
-                ? formatRut(event.target.value, false)
-                : event.target.value || "",
+            formatRut(event.target.value, false)
+
         ); // provide a default value for rut
     };
     return (

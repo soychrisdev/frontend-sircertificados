@@ -123,7 +123,7 @@ export default function TanStackTable({ data, isSuccess }: TanStackTableProps) {
                             // })} >Ver {JSON.stringify(row.original.EMCE_NCORR)}
                             // </button>
                             <Link
-                                to={`/GESTION/${row.original.PVCM_NRUT_PERSONA}/${row.original.PVCM_TTIPO_BENEFICIARIO}/${row.original.SEUN_NCORR_GESTOR}`}
+                                to={`GESTION/${row.original.PVCM_NRUT_PERSONA}/${row.original.PVCM_TTIPO_BENEFICIARIO}/${row.original.SEUN_NCORR_GESTOR}`}
                                 state={row.original}
                                 className="btn btn-default waves-effect waves-light"
                             >
