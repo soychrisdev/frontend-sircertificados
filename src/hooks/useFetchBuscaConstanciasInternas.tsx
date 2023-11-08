@@ -20,7 +20,7 @@ const fetchBuscaConstanciasInternas = async (value: any) => {
 
 	const response = await fetch(
 		//@ts-ignore
-		`${config?.baseUrl}api/BuscaConstanciasInternas`,
+		`${config?.baseUrl}/api/BuscaConstanciasInternas`,
 		{
 			method: "POST",
 			body: searchParams,

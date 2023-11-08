@@ -19,6 +19,7 @@ function Home() {
 	const { data: dataGestorVinculos, isLoading: isLoadingVinculos } =
 		useFetchGestorVinculoInterna();
 
+
 	const { handleSubmitForm, isLoading, data, isSuccess } = useSubmitForm();
 
 	if (isLoadingParticipante || isLoadingConstancias || isLoadingVinculos)

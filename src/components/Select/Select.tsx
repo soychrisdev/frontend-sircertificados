@@ -21,8 +21,6 @@ export default function Select({
 	const setTipoParticipante = useAppStore((state) => state.setTipoParticipante);
 	const setGestor = useAppStore((state) => state.setGestor);
 	const setAnio = useAppStore((state) => state.setAnio);
-	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const startSelects = $(".chosen-select") as any;
 
 	useEffect(() => {
 		if (data) {
@@ -46,8 +44,12 @@ export default function Select({
 			setAnio(selectAnio?.value);
 
 			chosenSelect.trigger("chosen:updated");
-			// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-			chosenSelect.chosen().change((e: any) => {
+			chosenSelect.chosen({
+				disable_search_threshold: 10,
+				no_results_text: "Sin Resultados para: ",
+				width: "100%",
+				placeholder_text_single: "Seleccione...",
+			}).change((e: any) => {
 				if (id === "select-tipo-usuario") {
 					setTipoParticipante(e.target?.value);
 				}
@@ -58,14 +60,7 @@ export default function Select({
 					setAnio(e.target?.value);
 				}
 			});
-			if (chosenSelect.length) {
-				startSelects.chosen({
-					disable_search_threshold: 10,
-					no_results_text: "Sin Resultados para: ",
-					width: "100%",
-					placeholder_text_single: "Seleccione...",
-				});
-			}
+
 		}
 	}, [data]);
 

@@ -33,7 +33,12 @@ export default function SelectTipoParticipante({
 
 			chosenSelect.trigger("chosen:updated");
 			// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-			chosenSelect.chosen().change((e: any) => {
+			chosenSelect.chosen({
+				disable_search_threshold: 10,
+				no_results_text: "Sin Resultados para: ",
+				width: "100%",
+				placeholder_text_single: "Seleccione...",
+			}).change((e: any) => {
 				if (id === "select-tipo-usuario") {
 					setTipoParticipante(e.target?.value);
 				}

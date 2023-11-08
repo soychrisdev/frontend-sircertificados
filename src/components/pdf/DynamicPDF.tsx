@@ -43,6 +43,10 @@ const styles = StyleSheet.create({
 		// backgroundColor: 'yellow',
 		flexGrow: 1,
 		color: "black",
+		//center content to center page
+		justifyContent: "center",
+
+
 	},
 	footer: {
 		// backgroundColor: 'green',
@@ -90,23 +94,39 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 });
-// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-type DynamicPDFProps = React.PropsWithChildren<{ data: any[] }>;
+//@ts-ignore
+type DynamicPDFProps = React.PropsWithChildren<{
+	data: [{
+		PVCM_TTIPO_BENEFICIARIO: string;
+		NOMBRE_COMPLETO: string;
+		SEDE_ACCION: string;
+		ID_PLANIFICACION: string;
+		PROGRAMA: string;
+		INICIATIVA: string;
+		ACCION: string;
+		FECHA_INICIO: string;
+		FECHA_TERMINO: string;
+		DIRECTOR_VCM: string;
+		FECHA_EMISION: string;
+
+	}]
+}>;
 
 export default function DynamicPDF(props: DynamicPDFProps) {
 	const { data } = props;
 
 	return (
 		<Document>
+			{/* //@ts-ignore */}
 			<Page size="A4" style={styles.page}>
 				<View style={styles.header}>
 					<View>
-						<Image source={"../../../INACAP_LOGO.png"} />
+						<Image source={'https://raw.githubusercontent.com/soychrisdev/inacap-frontend-sircertificados/b705afc5e80d14b53110d0b2acdc237fed9240e6/public/INACAP_LOGO.png'} />
 					</View>
 				</View>
-				{data?.map((elem) => (
-					<View style={styles.body}>
-						<View style={styles.center}>
+				{data?.map((elem, indice) => (
+					<>
+						{indice === 0 && <View style={styles.center}>
 							<Text style={styles.textTitle}>
 								CONSTANCIA DE PARTICIPACIÓN{" "}
 								{elem?.PVCM_TTIPO_BENEFICIARIO === "DOCENTE" && "DOCENTES"}
@@ -115,8 +135,6 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 								{elem?.PVCM_TTIPO_BENEFICIARIO === "ALUMNO" && "ESTUDIANTES"} EN
 								VCMI
 							</Text>
-							{/* <Text style={styles.textTitle}>{JSON.stringify(elem)}</Text> */}
-
 							<View style={styles.spacer} />
 							<View>
 								<Text style={styles.textMD}>
@@ -151,30 +169,37 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 									participado:
 								</Text>
 							</View>
-						</View>
-						<View style={styles.spacer} />
-						<View style={styles.container}>
-							<View style={styles.table}>
-								<View style={styles.tableRow}>
-									<View style={styles.tableCol}>
-										<Text style={styles.tableCell}>ID de planificación</Text>
-									</View>
-									<View style={styles.tableCol}>
-										<Text style={styles.tableCell}>Programa</Text>
-									</View>
-									<View style={styles.tableCol}>
-										<Text style={styles.tableCell}>Iniciativa</Text>
-									</View>
-									<View style={styles.tableCol}>
-										<Text style={styles.tableCell}>Acción</Text>
-									</View>
-									<View style={styles.tableCol}>
-										<Text style={styles.tableCell}>Fecha de inicio</Text>
-									</View>
-									<View style={styles.tableCol}>
-										<Text style={styles.tableCell}>Fecha de termino</Text>
-									</View>
+						</View>}
+
+					</>
+				))}
+
+
+				<View style={styles.body}>
+					<View style={styles.spacer} />
+					<View style={styles.container}>
+						<View style={styles.table}>
+							<View style={styles.tableRow}>
+								<View style={styles.tableCol}>
+									<Text style={styles.tableCell}>ID de planificación</Text>
 								</View>
+								<View style={styles.tableCol}>
+									<Text style={styles.tableCell}>Programa</Text>
+								</View>
+								<View style={styles.tableCol}>
+									<Text style={styles.tableCell}>Iniciativa</Text>
+								</View>
+								<View style={styles.tableCol}>
+									<Text style={styles.tableCell}>Acción</Text>
+								</View>
+								<View style={styles.tableCol}>
+									<Text style={styles.tableCell}>Fecha de inicio</Text>
+								</View>
+								<View style={styles.tableCol}>
+									<Text style={styles.tableCell}>Fecha de termino</Text>
+								</View>
+							</View>
+							{data?.map((elem) => (
 								<View style={styles.tableRow}>
 									<View style={styles.tableCol}>
 										<Text style={styles.tableCell}>
@@ -197,31 +222,42 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 										<Text style={styles.tableCell}>{elem?.FECHA_TERMINO}</Text>
 									</View>
 								</View>
-							</View>
-						</View>
-						{/* add style to align items to bottom of page */}
-						<View style={styles.center}>
-							<View style={styles.spacer} />
-							<View>
-								<Text style={styles.textMD}>{elem?.DIRECTOR_VCM}</Text>
-							</View>
-							<View style={styles.spacer} />
-							<View>
-								<Text style={styles.textMD}>
-									Director (a) Vinculación con el Medio e Innovación
-								</Text>
-							</View>
-							<View>
-								<Text style={styles.textMD}>
-									Fecha de emision: {elem?.FECHA_EMISION?.substring(0, 10)}
-								</Text>
-							</View>
+							))}
 						</View>
 					</View>
+					{/* add style to align items to bottom of page */}
+				</View>
+
+
+
+
+				{data?.map((elem, indice) => (
+					<>
+						{indice === 0 &&
+							<View style={styles.center}>
+								<View style={styles.spacer} />
+								<View>
+									<Text style={styles.textMD}>{elem?.DIRECTOR_VCM}</Text>
+								</View>
+								<View style={styles.spacer} />
+								<View>
+									<Text style={styles.textMD}>
+										Director (a) Vinculación con el Medio e Innovación
+									</Text>
+								</View>
+								<View>
+									<Text style={styles.textMD}>
+										Fecha de emision: {elem?.FECHA_EMISION?.substring(0, 10)}
+									</Text>
+								</View>
+							</View>
+						}
+					</>
 				))}
+
 				<View style={styles.footer}>
 					<View>
-						<Image source={"../../../INACAP_FOOTER.png"} />
+						<Image source={"https://raw.githubusercontent.com/soychrisdev/inacap-frontend-sircertificados/b705afc5e80d14b53110d0b2acdc237fed9240e6/public/INACAP_FOOTER.png"} />
 					</View>
 				</View>
 			</Page>

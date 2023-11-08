@@ -11,6 +11,7 @@ type SelectProps = {
 };
 
 export default function SelectAnio({
+
 	id,
 	label,
 	required,
@@ -19,6 +20,7 @@ export default function SelectAnio({
 	isLoading,
 }: SelectProps) {
 	const setAnio = useAppStore((state) => state.setAnio);
+
 
 	useEffect(() => {
 		if (data) {
@@ -29,11 +31,20 @@ export default function SelectAnio({
 				"select-tipo-anio",
 			) as HTMLSelectElement;
 
+
+
 			setAnio(selectAnio?.value);
+
+
 
 			chosenSelect.trigger("chosen:updated");
 			// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-			chosenSelect.chosen().change((e: any) => {
+			chosenSelect.chosen({
+				disable_search_threshold: 10,
+				no_results_text: "Sin Resultados para: ",
+				width: "100%",
+				placeholder_text_single: "Seleccione...",
+			}).change((e: any) => {
 				if (id === "select-tipo-anio") {
 					setAnio(e.target?.value);
 				}

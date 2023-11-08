@@ -22,16 +22,16 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
 	{
-		path: "/",
+		path: "/Inacap.SIRI.ConstanciasInternas/",
 		element: <Layout />,
 		errorElement: <PageError />,
 		children: [
 			{
-				path: "/",
+				index: true,
 				element: <Home />,
 			},
 			{
-				path: "/GESTION/:i_rut/:i_tpart/:i_seun_ccod",
+				path: "/Inacap.SIRI.ConstanciasInternas/GESTION/:i_rut/:i_tpart/:i_seun_ccod",
 				element: <HomePDFView />,
 			},
 			{

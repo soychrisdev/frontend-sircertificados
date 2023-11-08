@@ -18,8 +18,8 @@ export default function SelectGestor({
 	disabled,
 	isLoading,
 }: SelectProps) {
-	const setGestor = useAppStore((state) => state.setGestor);
 
+	const setGestor = useAppStore((state) => state.setGestor);
 	useEffect(() => {
 		if (data) {
 			const chosenSelect = $(`#${// rome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -28,13 +28,17 @@ export default function SelectGestor({
 			const selectGestor = document.getElementById(
 				"select-tipo-gestor",
 			) as HTMLSelectElement;
-
 			setGestor(selectGestor?.value);
 
 			chosenSelect.trigger("chosen:updated");
 
 			// rome-ignore lint/suspicious/noExplicitAny: <explanation>
-			chosenSelect.chosen().change((e: any) => {
+			chosenSelect.chosen({
+				disable_search_threshold: 10,
+				no_results_text: "Sin Resultados para: ",
+				width: "100%",
+				placeholder_text_single: "Seleccione...",
+			}).change((e: any) => {
 				if (id === "select-tipo-gestor") {
 					setGestor(e.target?.value);
 				}
