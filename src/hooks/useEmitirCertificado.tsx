@@ -3,8 +3,9 @@ import { MESSAGES } from "../utils/types";
 
 // rome-ignore lint/suspicious/noExplicitAny: <explanation>
 const fetchEmitirCertificado = async (valuesArray: any) => {
+	console.log("valuesArray: ", valuesArray);
 
-	for (const value of valuesArray) {
+	const results = await Promise.all(valuesArray.map(async (value: any) => {
 		const params = new URLSearchParams({
 			i_plan_ncorr: value.i_plan_ncorr,
 			i_tipo_cert: value.i_tipo_cert,
@@ -12,9 +13,6 @@ const fetchEmitirCertificado = async (valuesArray: any) => {
 			i_audi_tusuario: value.i_audi_tusuario,
 			i_cod_firmante: value.i_cod_firmante, //usuario authenticado en la app, en mi caso yo pero devuelve el codigo desde userdata.codigo //90010220
 		});
-
-		console.log("params: ", params);
-		console.log(JSON.stringify(params));
 
 		const response = await fetch(
 			//@ts-ignore
@@ -35,7 +33,9 @@ const fetchEmitirCertificado = async (valuesArray: any) => {
 		}
 
 		return data;
-	}
+	}));
+
+	return results;
 };
 
 export default function useEmitirCertificado() {

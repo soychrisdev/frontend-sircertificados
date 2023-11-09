@@ -216,17 +216,22 @@ export default function TanStackTable({ data, isSuccess }: TanStackTableProps) {
     };
 
     const handleSubmit = (value: FormattedValue[]) => {
-        for (const array of value) {
-            const formatedValues = array.map((value) => ({
-                i_plan_ncorr: value.PLAN_NCORR,
-                i_tipo_cert: "2",
-                i_pvcm_ncorr: value.PVCM_NCORR,
-                i_audi_tusuario: value.PVCM_NRUT_PERSONA,
-                i_cod_firmante: userData?.codigo,
-            }));
+        //@ts-ignore
+        for (let i = 0; i < value[0].length; i++) {
+            for (const array of value) {
+                //@ts-ignore
+                const formatedValues = array.map((value) => ({
+                    i_plan_ncorr: value.PLAN_NCORR,
+                    i_tipo_cert: "2",
+                    i_pvcm_ncorr: value.PVCM_NCORR,
+                    i_audi_tusuario: value.PVCM_NRUT_PERSONA,
+                    //@ts-ignore
+                    i_cod_firmante: userData?.codigo,
+                }));
 
-            console.log("formatedValues: ", formatedValues);
-            emitir(formatedValues);
+                console.log("formatedValues: ", formatedValues);
+                emitir(formatedValues);
+            }
         }
     };
 
