@@ -5,7 +5,7 @@ export const ExportToExcel = ({ apiData, fileName }) => {
 	const fileType =
 		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
 	const fileExtension = ".xlsx";
-
+	//@ts-ignore
 	const exportToCSV = (apiData, fileName) => {
 		const ws = XLSX.utils.json_to_sheet(apiData);
 		//PLAN_FINICIO	PLAN_FTERMINO	PVCM_TROL_DOCENTE	PVCM_TTIPO_BENEFICIARIO	PVCM_NRUT_PERSONA	PVCM_TNOMBRE_PERSONA	PVCM_NCORR	EMCE_NCORR	SEUN_NCORR_GESTOR	CERT_NCORR
@@ -28,6 +28,7 @@ export const ExportToExcel = ({ apiData, fileName }) => {
 			CERT_NCORR: "ID CERTIFICADO",
 		};
 		// Obtener los nombres de las columnas del mapeo o las claves originales
+		//@ts-ignore
 		const columnNames = Object.keys(apiData[0]).map(originalName => columnNamesMap[originalName] || originalName);
 
 		XLSX.utils.sheet_add_aoa(ws, [columnNames], { origin: "A1" });
