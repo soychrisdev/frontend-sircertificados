@@ -194,7 +194,7 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 									}
 									{elem?.PVCM_TTIPO_BENEFICIARIO === "DOCENTE" &&
 										<Text>
-											Docente del área académica <Text style={styles.boldText}>{elem?.AREA_ACADEMICA}</Text>, de la Sede <Text style={styles.boldText}>{elem?.SEDE_ACCION}.</Text>
+											Docente del <Text style={styles.boldText}>Instituto Profesional INACAP</Text>, de la Sede <Text style={styles.boldText}>{elem?.SEDE_ACCION}.</Text>
 										</Text>
 									}
 									{elem?.PVCM_TTIPO_BENEFICIARIO === "ALUMNO" &&
