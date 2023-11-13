@@ -111,7 +111,7 @@ export default function TanStackTable({ data, isSuccess }: TanStackTableProps) {
             },
             {
                 accessorKey: "EMCE_NCORR",
-                header: "CERTIFICADO?",
+                header: "Certificado",
                 // rome-ignore lint/suspicious/noExplicitAny: <explanation>
                 cell: ({ row }: any) => (
                     <>

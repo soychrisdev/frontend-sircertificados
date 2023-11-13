@@ -1,6 +1,7 @@
 
 import {
 	Document,
+	Font,
 	Image,
 	Page,
 	StyleSheet,
@@ -11,6 +12,12 @@ import {
 const styles = StyleSheet.create({
 	page: {
 		backgroundColor: "white",
+		fontFamily: "Roboto",
+		fontWeight: "bold",
+	},
+	boldText: {
+		fontSize: 10,
+		fontWeight: "heavy",
 	},
 	center: {
 		textAlign: "center",
@@ -20,18 +27,23 @@ const styles = StyleSheet.create({
 	},
 	textMD: {
 		fontSize: 10,
-		fontWeight: "bold",
+
+	},
+	textUsuario: {
+		fontSize: 10,
+		fontWeight: "heavy",
 	},
 	textTitle: {
 		fontSize: 12,
-		fontWeight: "bold",
+		fontWeight: "heavy",
 	},
 
 	textLG: {
 		fontSize: 12,
 	},
 	textBold: {
-		fontWeight: "bold",
+		fontSize: 10,
+		fontWeight: "heavy",
 	},
 	header: {
 		// backgroundColor: 'red',
@@ -91,7 +103,7 @@ const styles = StyleSheet.create({
 		margin: "auto",
 		marginTop: 5,
 		fontSize: 10,
-		fontWeight: "bold",
+
 	},
 });
 //@ts-ignore
@@ -108,10 +120,28 @@ type DynamicPDFProps = React.PropsWithChildren<{
 		FECHA_TERMINO: string;
 		DIRECTOR_VCM: string;
 		FECHA_EMISION: string;
+		AREA_ACADEMICA: string;
 
 	}]
 }>;
 
+// Register font
+Font.register({
+	family: 'Roboto',
+	fonts: [
+		{
+			src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmSU5vAx05IsDqlA.ttf',
+		},
+		{
+			src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9vAx05IsDqlA.ttf',
+			fontWeight: 700
+		},
+		{
+			src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmYUtvAx05IsDqlA.ttf',
+			fontWeight: 900
+		},
+	]
+});
 export default function DynamicPDF(props: DynamicPDFProps) {
 	const { data } = props;
 
@@ -127,6 +157,8 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 				{data?.map((elem, indice) => (
 					<>
 						{indice === 0 && <View style={styles.center}>
+							<View style={styles.spacer} />
+							<View style={styles.spacer} />
 							<Text style={styles.textTitle}>
 								CONSTANCIA DE PARTICIPACIÓN{" "}
 								{elem?.PVCM_TTIPO_BENEFICIARIO === "DOCENTE" && "DOCENTES"}
@@ -136,36 +168,53 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 								VCMI
 							</Text>
 							<View style={styles.spacer} />
-							<View>
-								<Text style={styles.textMD}>
-									Se extiende la presente constancia de participación en
-									acciones de vinculación con el medio e Innovación a:
-								</Text>
-							</View>
+							<View style={styles.spacer} />
 							<View style={styles.spacer} />
 
 							<View>
-								<Text style={styles.textMD}>{elem?.NOMBRE_COMPLETO}</Text>
+								<Text style={styles.textMD}>
+									Se extiende la presente constancia de participación en
+									acciones de Vinculación con el Medio e Innovación a:
+								</Text>
 							</View>
+							<View style={styles.spacer} />
+							<View style={styles.spacer} />
+
+							<View>
+								<Text style={styles.textUsuario}>{elem?.NOMBRE_COMPLETO}</Text>
+							</View>
+							<View style={styles.spacer} />
 							<View style={styles.spacer} />
 							<View>
 								<Text style={styles.textMD}>
 									{elem?.PVCM_TTIPO_BENEFICIARIO === "ADMINISTRATIVO" &&
-										`Administrativo de la Sede ${elem?.SEDE_ACCION}.`}
+										<Text>
+											Administrativo de la Sede <Text style={styles.boldText}>{elem?.SEDE_ACCION}</Text>.
+										</Text>
+									}
 									{elem?.PVCM_TTIPO_BENEFICIARIO === "DOCENTE" &&
-										`Docente del área académica Administración, de la Sede ${elem?.SEDE_ACCION}.`}
+										<Text>
+											Docente del área académica <Text style={styles.boldText}>{elem?.AREA_ACADEMICA}</Text>, de la Sede <Text style={styles.boldText}>{elem?.SEDE_ACCION}.</Text>
+										</Text>
+									}
 									{elem?.PVCM_TTIPO_BENEFICIARIO === "ALUMNO" &&
-										`Estudiante del área académica Administración, de la Sede ${elem?.SEDE_ACCION}.`}
+										<Text>
+											Estudiante del área académica <Text style={styles.boldText}>{elem?.AREA_ACADEMICA}</Text>, de la Sede <Text style={styles.boldText}>{elem?.SEDE_ACCION}.</Text>
+										</Text>
+									}
 								</Text>
 							</View>
+							<View style={styles.spacer} />
 							<View style={styles.spacer} />
 							<View>
 								<Text style={styles.textMD}>
 									A continuación, se detalla acciones en las cuales el{" "}
-									{elem?.PVCM_TTIPO_BENEFICIARIO === "DOCENTE" && "docente"}
+									{elem?.PVCM_TTIPO_BENEFICIARIO === "DOCENTE" && <Text style={styles.boldText}>docente</Text>}
 									{elem?.PVCM_TTIPO_BENEFICIARIO === "ADMINISTRATIVO" &&
-										"administrativo"}{" "}
-									{elem?.PVCM_TTIPO_BENEFICIARIO === "ALUMNO" && "estudiante"}ha
+										<Text style={styles.boldText}>administrativo</Text>}
+									{elem?.PVCM_TTIPO_BENEFICIARIO === "ALUMNO" &&
+										<Text style={styles.boldText}>estudiante</Text>
+									}{" "}ha
 									participado:
 								</Text>
 							</View>
@@ -237,7 +286,7 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 							<View style={styles.center}>
 								<View style={styles.spacer} />
 								<View>
-									<Text style={styles.textMD}>{elem?.DIRECTOR_VCM}</Text>
+									<Text style={styles.textBold}>{elem?.DIRECTOR_VCM}</Text>
 								</View>
 								<View style={styles.spacer} />
 								<View>
@@ -245,8 +294,9 @@ export default function DynamicPDF(props: DynamicPDFProps) {
 										Director (a) Vinculación con el Medio e Innovación
 									</Text>
 								</View>
+								<View style={styles.spacer} />
 								<View>
-									<Text style={styles.textMD}>
+									<Text style={styles.textBold}>
 										Fecha de emision: {elem?.FECHA_EMISION?.substring(0, 10)}
 									</Text>
 								</View>
